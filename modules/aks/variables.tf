@@ -64,3 +64,6 @@ variable "dns_service_ip" {
 
 }
 
+variable "tenant_id" {
+  type = string
+}

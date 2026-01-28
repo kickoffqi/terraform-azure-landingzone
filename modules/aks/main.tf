@@ -3,12 +3,21 @@ resource "azurerm_kubernetes_cluster" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
+
+  kubernetes_version        = "1.33"
+  automatic_channel_upgrade = "patch"
+
   default_node_pool {
     name           = "default"
     node_count     = var.node_count
     vm_size        = var.vm_size
     vnet_subnet_id = var.vnet_subnet_id
+
+    enable_auto_scaling = true
+    min_count           = 2
+    max_count           = 5
   }
+
   identity {
     type = "SystemAssigned"
   }
@@ -28,6 +37,11 @@ resource "azurerm_kubernetes_cluster" "this" {
   tags = {
     Environment = "Production"
     ManagedBy   = "Terraform"
+  }
+
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled = true
+    tenant_id          = var.tenant_id
   }
 
 }

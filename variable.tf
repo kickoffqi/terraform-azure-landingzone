@@ -65,3 +65,7 @@ variable "dns_service_ip" {
   type    = string
   default = "172.16.0.10"
 }
+
+variable "tenant_id" {
+  type = string
+}
