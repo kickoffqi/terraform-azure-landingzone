@@ -47,17 +47,21 @@ variable "network_subnets" {
 }
 
 variable "network_plugin" {
-  type = string
+  type    = string
+  default = "azure"
 }
 
 variable "load_balancer_sku" {
-  type = string
+  type    = string
+  default = "standard"
 }
 
 variable "service_cidr" {
-  type = string
+  type    = string
+  default = "172.16.0.0/16"
 }
 
 variable "dns_service_ip" {
-  type = string
+  type    = string
+  default = "172.16.0.10"
 }
