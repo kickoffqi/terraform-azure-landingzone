@@ -62,3 +62,18 @@ Once the deployment is complete, use the following command to login via Entra ID
 
 az aks get-credentials --resource-group <aks_resource_group_name> --name <aks_cluster_name>
 
+## 5. CI/CD Pipeline & DevSecOps
+
+This project uses **GitHub Actions** to implement a "Shift-Left" approach to infrastructure quality. 
+
+### Continuous Integration (CI)
+Every Pull Request triggers a validation pipeline (`.github/workflows/terraform.yml`) that acts as a **Quality Gate**:
+- **Linting**: Uses `terraform fmt` and `TFLint` to ensure code consistency and catch provider-specific misconfigurations.
+- **Validation**: Runs `terraform validate` to check internal logic and variable consistency.
+- **Security Scanning**: Integrates **Checkov** to perform Static Application Security Testing (SAST), identifying potential security risks (e.g., public access, missing encryption) before code is merged.
+
+### Continuous Deployment (CD) - Roadmap
+For production environments, the recommended CD flow is:
+1. **OIDC Authentication**: Use Azure OpenID Connect (OIDC) to allow GitHub Actions to authenticate with Azure without storing long-lived Service Principal secrets.
+2. **Environment Gates**: Utilize GitHub Environments with "Required Reviewers" for any `terraform apply` on production branches.
+3. **Plan Output**: Comments the `terraform plan` output directly onto the PR for peer review.
