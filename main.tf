@@ -46,7 +46,6 @@ module "aks" {
   service_cidr      = var.service_cidr
   dns_service_ip    = var.dns_service_ip
   network_plugin    = var.network_plugin
-  tenant_id         = var.tenant_id
 
   depends_on = [
     module.network,
