@@ -12,12 +12,12 @@ resource "azurerm_kubernetes_cluster" "this" {
   identity {
     type = "SystemAssigned"
   }
-  network_profile {
-    network_plugin    = "azure"
-    load_balancer_sku = "standard"
 
-    service_cidr   = "172.16.0.0/16"
-    dns_service_ip = "172.16.0.10"
+  network_profile {
+    network_plugin    = var.network_plugin
+    load_balancer_sku = var.load_balancer_sku
+    service_cidr      = var.service_cidr
+    dns_service_ip    = var.dns_service_ip
 
   }
 

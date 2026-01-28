@@ -38,3 +38,29 @@ variable "vm_size" {
   type    = string
   default = "standard_D2S_v3"
 }
+
+variable "network_plugin" {
+  description = "The network plugin to use for the AKS cluster."
+  type        = string
+  default     = "azure"
+}
+
+variable "load_balancer_sku" {
+  description = "The SKU of the load balancer."
+  type        = string
+  default     = "standard"
+}
+
+variable "service_cidr" {
+  description = "The CIDR notation IP range from which to assign service cluster IPs."
+  type        = string
+  default     = "172.16.0.0/16"
+}
+
+variable "dns_service_ip" {
+  description = "The IP address assigned to the DNS service."
+  type        = string
+  default     = "172.16.0.10"
+
+}
+

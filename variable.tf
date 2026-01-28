@@ -45,3 +45,19 @@ variable "network_vnet_name" {
 variable "network_subnets" {
   type = map(string)
 }
+
+variable "network_plugin" {
+  type = string
+}
+
+variable "load_balancer_sku" {
+  type = string
+}
+
+variable "service_cidr" {
+  type = string
+}
+
+variable "dns_service_ip" {
+  type = string
+}

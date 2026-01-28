@@ -3,9 +3,13 @@ output "aks_id" {
   value       = azurerm_kubernetes_cluster.this.id
 }
 
-output "kub_config" {
-  description = "The kube_config of the AKS Cluster"
-  value       = azurerm_kubernetes_cluster.this.kube_config_raw
-  sensitive   = true
+output "aks_name" {
+  description = "The Name of the AKS Cluster"
+  value       = azurerm_kubernetes_cluster.this.name
+}
+
+output "kubelet_identity_object_id" {
+  description = "The Object ID of the AKS Cluster Kubelet Identity"
+  value       = azurerm_kubernetes_cluster.this.kubelet_identity[0].object_id
 }
 
