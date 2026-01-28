@@ -1,31 +1,42 @@
+resource "azurerm_resource_group" "rg_network" {
+  name     = var.network_resource_group_name
+  location = var.location
+}
+resource "azurerm_resource_group" "rg_monitoring" {
+  name     = var.monitoring_resource_group_name
+  location = var.location
+}
+
+resource "azurerm_resource_group" "rg_aks" {
+  name     = var.aks_resource_group_name
+  location = var.location
+}
+
 module "network" {
   #source              = "github.com/kickoffqi/terraform-azure-landingzone//modules/vnet?ref=v0.1.1"
   source              = "./modules/vnet"
-  resource_group_name = "rg-terraform-mgmt"
-  location            = "australiaeast"
-  vnet_name           = "vnet-lz-prod-ae"
+  resource_group_name = var.network_resource_group_name
+  location            = var.location
+  vnet_name           = var.network_vnet_name
 
-  subnets = {
-    "snet-aks"    = "10.0.1.0/24"
-    "snet-shared" = "10.0.2.0/24"
-  }
+  subnets = var.network_subnets
 
 }
 
 module "monitoring" {
   source              = "./modules/monitoring"
-  resource_group_name = "rg-terraform-mgmt"
-  location            = "australiaeast"
-  workspace_name      = "law-lz-prod-ae"
-  retention_in_days   = 30
+  resource_group_name = var.monitoring_resource_group_name
+  location            = var.location
+  workspace_name      = var.monitoring_workspace_name
+  retention_in_days   = var.monitoring_retention_in_days
 }
 
 module "aks" {
   source              = "./modules/aks"
-  cluster_name        = "aks-lz-prod-ae"
-  resource_group_name = "rg-terraform-mgmt"
-  location            = "australiaeast"
-  dns_prefix          = "aks-lz-prodae"
+  cluster_name        = var.aks_cluster_name
+  resource_group_name = var.aks_resource_group_name
+  location            = var.location
+  dns_prefix          = var.aks_dns_prefix
 
   vnet_subnet_id = module.network.subnet_ids["snet-aks"]
 
