@@ -1,0 +1,29 @@
+# --- Resource Groups ---
+network_resource_group_name    = "rg-lz-prod-ae-network"
+aks_resource_group_name        = "rg-lz-prod-ae-aks"
+monitoring_resource_group_name = "rg-lz-prod-ae-monitoring"
+
+# --- Global Settings ---
+location                       = "australiaeast"
+
+# --- AKS Module Settings ---
+aks_cluster_name               = "aks-lz-prod-ae"
+aks_dns_prefix                 = "aks-lz-prodae"
+
+# --- Monitoring Module Settings ---
+monitoring_workspace_name      = "law-lz-prod-ae"
+monitoring_retention_in_days   = 30
+
+# --- Network Module Settings ---
+network_vnet_name              = "vnet-lz-prod-ae"
+network_subnets = {
+  "snet-aks"    = "10.0.1.0/24"
+  "snet-shared" = "10.0.2.0/24"
+}
+
+# --- AKS Advanced Networking ---
+# Ensure service_cidr does not overlap with VNet address space
+network_plugin    = "azure"
+load_balancer_sku = "standard"
+service_cidr      = "172.16.0.0/16"
+dns_service_ip    = "172.16.0.10"
