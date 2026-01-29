@@ -1,5 +1,3 @@
-# checkov:skip=CKV_AZURE_115: "Testing environment - public endpoint needed for direct management"
-# checkov:skip=CKV_AZURE_170: "Cost optimization - using Free Tier for learning"
 resource "azurerm_kubernetes_cluster" "this" {
   name                = var.cluster_name
   location            = var.location
