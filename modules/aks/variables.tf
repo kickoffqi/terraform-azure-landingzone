@@ -61,5 +61,21 @@ variable "dns_service_ip" {
   description = "The IP address assigned to the DNS service."
   type        = string
   default     = "172.16.0.10"
+}
 
+variable "min_count" {
+  description = "The minimum number of nodes in the AKS cluster."
+  type        = number
+  default     = 2
+}
+
+variable "max_count" {
+  description = "The maximum number of nodes in the AKS cluster."
+  type        = number
+  default     = 5
+}
+
+variable "network_policy" {
+  type    = string
+  default = "azure"
 }

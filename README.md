@@ -11,7 +11,7 @@ This project provides a modularized Terraform framework to deploy a production-r
 
 ### Step 1: Initialize
 Initialize the working directory and download the required providers.
-```bash
+
 terraform init
 
 ### Step 2: Configure Variables
