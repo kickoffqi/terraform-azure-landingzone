@@ -1,49 +1,71 @@
 name: "Terraform CI"
 
 on:
-    pull_request:
-        branches:
-            - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-    terraform-ci:
-        name: "Terraform Quality & Security Gate"
-        runs-on: ubuntu-latest
+  terraform-ci:
+    name: "Terraform Quality & Security Gate"
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                  terraform_version: 1.7.0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
 
-            # 1. Check formatting (Shift-Left: Clean code starts here)
-            - name: Terraform Format Check
-              run: terraform fmt -check -recursive
+      # 1. Check formatting (Shift-Left: Clean code starts here)
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
 
-            # 2. Initialize (backend=false because we don't need Azure access for CI)
-            - name: Terraform Init
-              run: terraform init -backend=false
+      # 2. Initialize (backend=false because we don't need Azure access for CI)
+      - name: Terraform Init
+        run: terraform init -backend=false
 
-            # 3. Static Validation (Check for syntax and internal consistency)
-            - name: Terraform Validate
-              run: terraform validate
+      # 3. Static Validation (Check for syntax and internal consistency)
+      - name: Terraform Validate
+        run: terraform validate
 
-            # 4. TFLint (Advanced Linting: Catching provider-specific errors)
-            - name: Setup TFLint
-              uses: terraform-linters/setup-tflint@v4
-              with:
-                  tflint_version: v0.50.0
+      # 4. Policy as Code with OPA (Enforce organizational policies)
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
-            - name: Run TFLint
-              run: tflint -f compact
+      - name: Create JSON Plan
+        run: terraform show -json tfplan > tfplan.json
 
-            # 5. Checkov (DevSecOps: Static Analysis for Security Misconfigurations)
-            - name: Run Checkov
-              uses: bridgecrewio/checkov-action@master
-              with:
-                  directory: .
-                  framework: terraform
-                  soft_fail: true # Set to false if you want to block PRs on security findings
+      - name: Setup OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: latest
+
+      - name: Run OPA Policy Check
+        run: |
+          opa exec --decision terraform.analysis/allow --bundle policy/ tfplan.json | grep "true"
+
+      # 5. TFLint (Advanced Linting: Catching provider-specific errors)
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: v0.50.0
+
+      - name: Run TFLint
+        run: tflint -f compact
+
+      # 6. Checkov (DevSecOps: Static Analysis for Security Misconfigurations)
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          framework: terraform
+          soft_fail: true # Set to false if you want to block PRs on security findings
+
