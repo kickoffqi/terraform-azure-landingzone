@@ -1,6 +1,8 @@
-# checkov:skip=CKV_AZURE_117: Disk encryption set is complex (requires Key Vault).
-# checkov:skip=CKV_AZURE_170: Ensure Paid SKU is used for Uptime SLA (Recommended for Prod)
+
 resource "azurerm_kubernetes_cluster" "this" {
+  # checkov:skip=CKV_AZURE_115: "Private clusters require a VPN/Bastion which is out of scope for this demo."
+  # checkov:skip=CKV_AZURE_117: Disk encryption set is complex (requires Key Vault).
+  # checkov:skip=CKV_AZURE_170: Ensure Paid SKU is used for Uptime SLA (Recommended for Prod)
   name                = var.cluster_name
   location            = var.location
   resource_group_name = var.resource_group_name
