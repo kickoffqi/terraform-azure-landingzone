@@ -22,7 +22,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     max_count           = var.max_count
 
     # FIX CKV_AZURE_168: Set max_pods to at least 50
-    max_pods = 50
+    max_pods = 30
 
     # FIX CKV_AZURE_226: Use Ephemeral OS disk for better performance
     os_disk_type = "Ephemeral"
