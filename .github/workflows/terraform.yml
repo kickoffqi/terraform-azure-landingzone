@@ -25,7 +25,8 @@ jobs:
 
       # 2. Initialize (backend=false because we don't need Azure access for CI)
       - name: Terraform Init
-        run: terraform init -backend=false
+        #run: terraform init -backend=false
+        run: terraform init
 
       # 3. Static Validation (Check for syntax and internal consistency)
       - name: Terraform Validate
