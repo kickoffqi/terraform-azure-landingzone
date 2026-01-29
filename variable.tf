@@ -26,6 +26,22 @@ variable "aks_dns_prefix" {
 
 }
 
+variable "vm_size" {
+  type    = string
+  default = "standard_D2S_v3"
+
+}
+
+variable "min_count" {
+  type    = number
+  default = 2
+}
+
+variable "max_count" {
+  type    = number
+  default = 5
+}
+
 variable "monitoring_workspace_name" {
   type        = string
   description = "The name of the Log Analytics Workspace"
