@@ -95,5 +95,4 @@ variable "local_account_disabled" {
 variable "authorized_ip_ranges" {
   type        = set(string)
   description = "允许访问 API Server 的 IP 地址范围列表（CIDR 格式）"
-  default     = ["0.0.0.0/0"] # 默认为空列表，即不限制或按需配置
 }
