@@ -94,5 +94,5 @@ variable "local_account_disabled" {
 variable "authorized_ip_ranges" {
   type        = list(string)
   description = "List of authorized IP ranges for API server access."
-  default     = []
+  default     = ["0.0.0.0/0"]
 }
