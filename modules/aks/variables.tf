@@ -51,6 +51,12 @@ variable "load_balancer_sku" {
   default     = "standard"
 }
 
+variable "enable_auto_scaling" {
+  description = "Enable or disable the cluster autoscaler."
+  type        = bool
+  default     = true
+}
+
 variable "service_cidr" {
   description = "The CIDR notation IP range from which to assign service cluster IPs."
   type        = string
@@ -78,4 +84,16 @@ variable "max_count" {
 variable "network_policy" {
   type    = string
   default = "azure"
+}
+
+variable "local_account_disabled" {
+  description = "Disable local accounts for enhanced security."
+  type        = bool
+  default     = true
+}
+
+variable "authorized_ip_ranges" {
+  type        = set(string)
+  description = "允许访问 API Server 的 IP 地址范围列表（CIDR 格式）"
+  default     = ["0.0.0.0/0"] # 默认为空列表，即不限制或按需配置
 }

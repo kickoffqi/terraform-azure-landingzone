@@ -12,14 +12,18 @@ resource "azurerm_kubernetes_cluster" "this" {
   automatic_channel_upgrade = "patch"
 
   default_node_pool {
-    name           = "default"
-    node_count     = var.node_count
-    vm_size        = var.vm_size
-    vnet_subnet_id = var.vnet_subnet_id
+    name = "default"
+    #node_count      = var.node_count
+    vm_size         = var.vm_size
+    vnet_subnet_id  = var.vnet_subnet_id
+    os_disk_size_gb = 30 # Ensure this is smaller than VM cache size
 
-    enable_auto_scaling = true
+    enable_auto_scaling = var.enable_auto_scaling
     min_count           = var.min_count
     max_count           = var.max_count
+
+    # FIX: Add this line to allow Terraform to recreate the pool safely
+    temporary_name_for_rotation = "tmpnodepool"
 
     # FIX CKV_AZURE_168: Set max_pods to at least 50
     max_pods = 30
@@ -70,14 +74,14 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   # FIX CKV_AZURE_141: Disable local accounts
-  local_account_disabled = true
+  local_account_disabled = var.local_account_disabled
 
 
   # FIX CKV_AZURE_6: Limit API Server access to specific IPs (e.g., your office/home IP)
   # For demo, you can use a variable or leave it empty for all, 
   # but Checkov wants this block present.
   api_server_access_profile {
-    authorized_ip_ranges = ["1.2.3.4/32"]
+    authorized_ip_ranges = var.authorized_ip_ranges
   }
 
 }

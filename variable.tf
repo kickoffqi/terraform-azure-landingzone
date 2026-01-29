@@ -31,7 +31,10 @@ variable "vm_size" {
   default = "standard_D2S_v3"
 
 }
-
+variable "enable_auto_scaling" {
+  type    = bool
+  default = true
+}
 variable "min_count" {
   type    = number
   default = 2
@@ -80,4 +83,16 @@ variable "service_cidr" {
 variable "dns_service_ip" {
   type    = string
   default = "172.16.0.10"
+}
+
+variable "local_account_disabled" {
+  type        = bool
+  description = "Disable local accounts for enhanced security."
+  default     = true
+}
+
+variable "authorized_ip_ranges" {
+  type        = list(string)
+  description = "List of authorized IP ranges for API server access."
+  default     = []
 }
