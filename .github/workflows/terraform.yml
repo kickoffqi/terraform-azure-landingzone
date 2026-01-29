@@ -8,7 +8,7 @@ on:
 jobs:
   terraform-ci:
     name: "Terraform Quality & Security Gate"
-    runs-on: ubuntu-lates
+    runs-on: ubuntu-latest
     env:
       # Terraform need these to access Azure resources
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
