@@ -18,6 +18,15 @@ variable "dns_prefix" {
   type        = string
 }
 
+variable "kubernetes_version" {
+  type    = string
+  default = "1.33"
+}
+
+variable "automatic_channel_upgrade" {
+  type    = string
+  default = "patch"
+}
 variable "vnet_subnet_id" {
   description = "The ID of the subnet in which to deploy the AKS cluster."
   type        = string

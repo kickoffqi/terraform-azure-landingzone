@@ -19,6 +19,16 @@ variable "aks_cluster_name" {
   type = string
 }
 
+variable "kubernetes_version" {
+  type    = string
+  default = "1.33"
+}
+
+variable "automatic_channel_upgrade" {
+  type    = string
+  default = "patch"
+}
+
 variable "aks_dns_prefix" {
   type        = string
   description = "DNS prefix for the AKS cluster"
