@@ -37,6 +37,9 @@ module "aks" {
   resource_group_name = azurerm_resource_group.rg_aks.name
   location            = var.location
   dns_prefix          = var.aks_dns_prefix
+  vm_size             = var.vm_size
+  min_count           = var.min_count
+  max_count           = var.max_count
 
   vnet_subnet_id = module.network.subnet_ids["snet-aks"]
 
