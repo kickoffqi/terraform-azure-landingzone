@@ -70,8 +70,6 @@ resource "azurerm_kubernetes_cluster" "this" {
   # FIX CKV_AZURE_141: Disable local accounts
   local_account_disabled = true
 
-  # FIX CKV_AZURE_116: Enable Azure Policy Add-on
-  azure_policy_enabled = true
 
   # FIX CKV_AZURE_6: Limit API Server access to specific IPs (e.g., your office/home IP)
   # For demo, you can use a variable or leave it empty for all, 
