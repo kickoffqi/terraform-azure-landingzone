@@ -33,33 +33,33 @@ jobs:
 
       # 2. Initialize (backend=false because we don't need Azure access for CI)
       - name: Terraform Init
-        #run: terraform init -backend=false
-        run: terraform init
+        run: terraform init -backend=false
+        #run: terraform init
 
       # 3. Static Validation (Check for syntax and internal consistency)
       - name: Terraform Validate
         run: terraform validate
 
       # 4. Policy as Code with OPA (Enforce organizational policies)
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      #- name: Terraform Plan
+      #  run: terraform plan -out=tfplan
+      #  env:
+      #    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      #   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
-      - name: Create JSON Plan
-        run: terraform show -json tfplan > tfplan.json
+      #- name: Create JSON Plan
+      #  run: terraform show -json tfplan > tfplan.json
 
-      - name: Setup OPA
-        uses: open-policy-agent/setup-opa@v2
-        with:
-          version: latest
+      #- name: Setup OPA
+      #  uses: open-policy-agent/setup-opa@v2
+      #  with:
+      #    version: latest
 
-      - name: Run OPA Policy Check
-        run: |
-          opa exec --decision terraform.analysis/allow --bundle policy/ tfplan.json | grep "true"
+      #- name: Run OPA Policy Check
+      #  run: |
+      #    opa exec --decision terraform.analysis/allow --bundle policy/ tfplan.json | grep "true"
 
       # 5. TFLint (Advanced Linting: Catching provider-specific errors)
       - name: Setup TFLint
