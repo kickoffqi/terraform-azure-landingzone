@@ -8,8 +8,8 @@ resource "azurerm_kubernetes_cluster" "this" {
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
 
-  kubernetes_version        = "1.33"
-  automatic_channel_upgrade = "patch"
+  kubernetes_version        = var.kubernetes_version
+  automatic_channel_upgrade = var.automatic_channel_upgrade
 
   default_node_pool {
     name = "default"
@@ -36,6 +36,13 @@ resource "azurerm_kubernetes_cluster" "this" {
 
     # FIX CKV_AZURE_232: Ensure only critical pods on system pool
     only_critical_addons_enabled = true
+
+    # Explicitly define the settings to match Azure's default values
+    upgrade_settings {
+      max_surge                     = "10%"
+      drain_timeout_in_minutes      = 0
+      node_soak_duration_in_minutes = 0
+    }
   }
 
   identity {
@@ -83,5 +90,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   api_server_access_profile {
     authorized_ip_ranges = var.authorized_ip_ranges
   }
+
+
 
 }

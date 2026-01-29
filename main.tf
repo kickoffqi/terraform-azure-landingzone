@@ -32,15 +32,17 @@ module "monitoring" {
 }
 
 module "aks" {
-  source              = "./modules/aks"
-  cluster_name        = var.aks_cluster_name
-  resource_group_name = azurerm_resource_group.rg_aks.name
-  location            = var.location
-  dns_prefix          = var.aks_dns_prefix
-  vm_size             = var.vm_size
-  min_count           = var.min_count
-  max_count           = var.max_count
-  enable_auto_scaling = var.enable_auto_scaling
+  source                    = "./modules/aks"
+  cluster_name              = var.aks_cluster_name
+  resource_group_name       = azurerm_resource_group.rg_aks.name
+  location                  = var.location
+  kubernetes_version        = var.kubernetes_version
+  automatic_channel_upgrade = var.automatic_channel_upgrade
+  dns_prefix                = var.aks_dns_prefix
+  vm_size                   = var.vm_size
+  min_count                 = var.min_count
+  max_count                 = var.max_count
+  enable_auto_scaling       = var.enable_auto_scaling
 
   vnet_subnet_id = module.network.subnet_ids["snet-aks"]
 
