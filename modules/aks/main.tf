@@ -45,6 +45,14 @@ resource "azurerm_kubernetes_cluster" "this" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [
+      tags,                                 # Ignore all tag changes
+      default_node_pool[0].node_count,      # Let Azure Auto-scaler manage this
+      default_node_pool[0].upgrade_settings # Ignore upgrade settings changes
+    ]
+  }
+
   identity {
     type = "SystemAssigned"
   }
