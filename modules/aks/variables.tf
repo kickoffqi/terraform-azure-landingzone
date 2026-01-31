@@ -81,13 +81,13 @@ variable "dns_service_ip" {
 variable "min_count" {
   description = "The minimum number of nodes in the AKS cluster."
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "max_count" {
   description = "The maximum number of nodes in the AKS cluster."
   type        = number
-  default     = 5
+  default     = 1
 }
 
 variable "network_policy" {
@@ -105,4 +105,34 @@ variable "authorized_ip_ranges" {
   type        = list(string)
   description = "允许访问 API Server 的 IP 地址范围列表（CIDR 格式）"
   default     = ["0.0.0.0/0"]
+}
+
+variable "work_node_count" {
+  description = "The number of nodes in the working (user) node pool."
+  type        = number
+  default     = 1
+}
+
+variable "work_node_vm_size" {
+  description = "VM size for the working (user) node pool."
+  type        = string
+  default     = "standard_D2S_v3"
+}
+
+variable "work_enable_auto_scaling" {
+  description = "Enable or disable autoscaling for the working (user) node pool."
+  type        = bool
+  default     = false
+}
+
+variable "work_min_count" {
+  description = "Minimum number of nodes for the working (user) node pool."
+  type        = number
+  default     = 1
+}
+
+variable "work_max_count" {
+  description = "Maximum number of nodes for the working (user) node pool."
+  type        = number
+  default     = 1
 }

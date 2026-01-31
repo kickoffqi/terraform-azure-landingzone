@@ -102,3 +102,21 @@ resource "azurerm_kubernetes_cluster" "this" {
 
 
 }
+
+resource "azurerm_kubernetes_cluster_node_pool" "work" {
+  name                  = "work"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.this.id
+  vm_size               = var.work_node_vm_size
+  vnet_subnet_id        = var.vnet_subnet_id
+  mode                  = "User"
+  orchestrator_version  = var.kubernetes_version
+
+  enable_auto_scaling = var.work_enable_auto_scaling
+  node_count          = var.work_node_count
+  min_count           = var.work_min_count
+  max_count           = var.work_max_count
+
+  node_labels = {
+    "nodepool" = "work"
+  }
+}
