@@ -23,11 +23,11 @@ resource "azurerm_network_security_group" "this" {
   resource_group_name = var.resource_group_name
 }
 
-resource "azurerm_subnet_network_security_group_association" "this" {
-  for_each                  = azurerm_subnet.this
-  subnet_id                 = each.value.id
-  network_security_group_id = azurerm_network_security_group.this.id
-}
+#resource "azurerm_subnet_network_security_group_association" "this" {
+#  for_each                  = azurerm_subnet.this
+#  subnet_id                 = each.value.id
+#  network_security_group_id = azurerm_network_security_group.this.id
+#}
 
 resource "azurerm_network_security_rule" "inbound" {
   for_each = { for rule in var.nsg_inbound_rules : rule.name => rule }
