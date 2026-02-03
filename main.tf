@@ -55,6 +55,7 @@ module "aks" {
   network_plugin         = var.network_plugin
   local_account_disabled = var.local_account_disabled
   #authorized_ip_ranges     = var.authorized_ip_ranges
+
   work_node_count          = var.work_node_count
   work_node_vm_size        = var.work_node_vm_size
   work_enable_auto_scaling = var.work_enable_auto_scaling
