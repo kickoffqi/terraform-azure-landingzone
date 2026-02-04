@@ -38,11 +38,11 @@ resource "azurerm_kubernetes_cluster" "this" {
     only_critical_addons_enabled = true
 
     # Explicitly define the settings to match Azure's default values
-    upgrade_settings {
-      max_surge                     = "10%"
-      drain_timeout_in_minutes      = 0
-      node_soak_duration_in_minutes = 0
-    }
+    #upgrade_settings {
+    #  max_surge                     = "10%"
+    #  drain_timeout_in_minutes      = 0
+    #  node_soak_duration_in_minutes = 0
+    #}
   }
 
   lifecycle {

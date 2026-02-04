@@ -173,5 +173,5 @@ variable "work_min_count" {
 variable "work_max_count" {
   description = "Maximum number of nodes for the working (user) node pool."
   type        = number
-  default     = 1
+  default     = 2
 }
