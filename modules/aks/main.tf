@@ -26,7 +26,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     temporary_name_for_rotation = "tmpnodepool"
 
     # FIX CKV_AZURE_168: Set max_pods to at least 50
-    max_pods = 30
+    max_pods = 50
 
     # FIX CKV_AZURE_226: Use Ephemeral OS disk for better performance
     os_disk_type = "Ephemeral"
@@ -38,11 +38,11 @@ resource "azurerm_kubernetes_cluster" "this" {
     only_critical_addons_enabled = true
 
     # Explicitly define the settings to match Azure's default values
-    upgrade_settings {
-      max_surge                     = "10%"
-      drain_timeout_in_minutes      = 0
-      node_soak_duration_in_minutes = 0
-    }
+    #upgrade_settings {
+    #  max_surge                     = "10%"
+    #  drain_timeout_in_minutes      = 0
+    #  node_soak_duration_in_minutes = 0
+    #}
   }
 
   lifecycle {
@@ -110,6 +110,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "work" {
   vnet_subnet_id        = var.vnet_subnet_id
   mode                  = "User"
   orchestrator_version  = var.kubernetes_version
+  max_pods              = 60
 
   enable_auto_scaling = var.work_enable_auto_scaling
   node_count          = var.work_node_count
